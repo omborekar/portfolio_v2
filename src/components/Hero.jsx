@@ -4,7 +4,6 @@ import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 import profileTall from '../assets/tall-profile.jpg';
 import profileSquare from '../assets/profile.jpg';
 
-// 🔁 Looping Typewriter Hook
 function useTypewriter(text, speed = 50, pause = 1500) {
   const [displayed, setDisplayed] = useState('');
   const [index, setIndex] = useState(0);
@@ -28,7 +27,6 @@ function useTypewriter(text, speed = 50, pause = 1500) {
   return displayed;
 }
 
-// 🔢 Counter Component
 const Counter = ({ end, label }) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -57,6 +55,15 @@ const Counter = ({ end, label }) => {
 export default function Hero() {
   const subtitle = useTypewriter("AI Enthusiast • Full Stack Developer • Open Source Learner", 50);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section className="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-20 py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white gap-12 lg:gap-10">
       
@@ -70,16 +77,14 @@ export default function Hero() {
         <div className="absolute inset-0 bg-purple-800 rounded-full lg:rounded-[48%/52%] opacity-30 blur-2xl z-0" />
         <div className="relative w-full h-full overflow-hidden shadow-2xl rounded-full lg:rounded-[48%/52%] z-10 bg-purple-700 p-1.5">
           <img
-            srcSet={`${profileSquare} 480w, ${profileTall} 1024w`}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            src={profileTall}
+            src={isMobile ? profileSquare : profileTall}
             alt="Om Borekar"
-            className="w-full h-full object-cover rounded-full lg:rounded-[48%/52%]"
+            className="w-full h-full object-cover object-top rounded-full lg:rounded-[48%/52%]"
           />
         </div>
       </motion.div>
 
-      {/* Experience / Projects */}
+      {/* Counters */}
       <motion.div
         className="order-2 lg:order-3 w-full flex flex-row justify-center gap-12 lg:flex-col lg:w-1/4 lg:text-center lg:gap-10"
         initial={{ opacity: 0, y: 40 }}
@@ -117,7 +122,6 @@ export default function Hero() {
           Final Year Computer Engineering Student
         </motion.h1>
 
-        {/* 🔁 Typewriter subtitle */}
         <motion.h2
           className="text-lg text-purple-400 font-semibold tracking-wide min-h-[1.5rem]"
           initial={{ opacity: 0 }}
@@ -145,9 +149,14 @@ export default function Hero() {
           <a href="#contact" className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition cursor-pointer">
             Hire Me
           </a>
-          <a href="/Om_Borekar_Resume.pdf" download className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition cursor-pointer">
-            Download CV
-          </a>
+          <a
+  href="https://drive.google.com/uc?export=download&id=1TIT9utK1s_5B7MMIiiOGtjXWGckt6syP"
+  download
+  className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition cursor-pointer"
+>
+  Download CV
+</a>
+
         </motion.div>
 
         <motion.div
@@ -156,7 +165,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
         >
-          <a href="https://linkedin.com/in/om-borekar" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+          <a href="https://linkedin.com/in/omborekar04" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
           <a href="https://github.com/omborekar" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
           <a href="mailto:om.borekar.sae.comp@gmail.com"><FaEnvelope /></a>
         </motion.div>

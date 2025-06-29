@@ -6,7 +6,6 @@ export default function Contact() {
     e.preventDefault();
     const form = e.target;
 
-    // Send form via Formspree
     fetch("https://formspree.io/f/manjarew", {
       method: "POST",
       body: new FormData(form),
@@ -59,21 +58,25 @@ export default function Contact() {
             <div className="space-y-3">
               <p>
                 <span className="font-semibold text-purple-400">Email:</span>{' '}
-                <a href="mailto:you@example.com" className="hover:underline">you@example.com</a>
+                <a href="mailto:om.borekar.sae.comp@gmail.com" className="hover:underline">
+                  om.borekar.sae.comp@gmail.com
+                </a>
               </p>
               <p>
                 <span className="font-semibold text-purple-400">Phone:</span>{' '}
-                <a href="tel:+919876543210" className="hover:underline">+91 98765 43210</a>
+                <a href="tel:+918767292374" className="hover:underline">
+                  +91-8767292374
+                </a>
               </p>
               <p>
                 <span className="font-semibold text-purple-400">LinkedIn:</span>{' '}
                 <a
-                  href="https://linkedin.com/in/your-linkedin"
+                  href="https://linkedin.com/in/omborekar04"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline"
                 >
-                  linkedin.com/in/your-linkedin
+                  @omborekar04
                 </a>
               </p>
             </div>
@@ -97,6 +100,7 @@ export default function Contact() {
   );
 }
 
+// 🟪 FloatingInput component
 function FloatingInput({ name, label, type }) {
   return (
     <div className="relative">
@@ -114,6 +118,7 @@ function FloatingInput({ name, label, type }) {
   );
 }
 
+// 🟪 FloatingTextArea component
 function FloatingTextArea({ name, label }) {
   return (
     <div className="relative">
