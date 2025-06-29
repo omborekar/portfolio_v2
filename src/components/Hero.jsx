@@ -4,21 +4,31 @@ import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 import profileTall from '../assets/tall-profile.jpg';
 import profileSquare from '../assets/profile.jpg';
 
-// ⌨️ Typewriter Hook
-function useTypewriter(text, speed = 40) {
+// 🔁 Looping Typewriter Hook
+function useTypewriter(text, speed = 50, pause = 1500) {
   const [displayed, setDisplayed] = useState('');
+  const [index, setIndex] = useState(0);
+
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setDisplayed(text.slice(0, i + 1));
-      i++;
-      if (i === text.length) clearInterval(interval);
-    }, speed);
-    return () => clearInterval(interval);
-  }, [text, speed]);
+    let timeout;
+    if (index < text.length) {
+      timeout = setTimeout(() => {
+        setDisplayed((prev) => prev + text.charAt(index));
+        setIndex(index + 1);
+      }, speed);
+    } else {
+      timeout = setTimeout(() => {
+        setDisplayed('');
+        setIndex(0);
+      }, pause);
+    }
+    return () => clearTimeout(timeout);
+  }, [index, text, speed, pause]);
+
   return displayed;
 }
 
+// 🔢 Counter Component
 const Counter = ({ end, label }) => {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -45,11 +55,11 @@ const Counter = ({ end, label }) => {
 };
 
 export default function Hero() {
-  const subtitle = useTypewriter("AI Enthusiast • Full Stack Developer • Open Source Learner", 40);
+  const subtitle = useTypewriter("AI Enthusiast • Full Stack Developer • Open Source Learner", 50);
 
   return (
     <section className="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-20 py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white gap-12 lg:gap-10">
-
+      
       {/* Profile Image */}
       <motion.div
         className="order-1 lg:order-2 relative w-44 h-44 lg:w-64 lg:h-96"
@@ -107,7 +117,7 @@ export default function Hero() {
           Final Year Computer Engineering Student
         </motion.h1>
 
-        {/* ⌨️ Typewriter subtitle */}
+        {/* 🔁 Typewriter subtitle */}
         <motion.h2
           className="text-lg text-purple-400 font-semibold tracking-wide min-h-[1.5rem]"
           initial={{ opacity: 0 }}
@@ -132,10 +142,10 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <a href="#contact" className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition">
+          <a href="#contact" className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition cursor-pointer">
             Hire Me
           </a>
-          <a href="/Om_Borekar_Resume.pdf" download className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition">
+          <a href="/Om_Borekar_Resume.pdf" download className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition cursor-pointer">
             Download CV
           </a>
         </motion.div>
