@@ -93,7 +93,7 @@ export default function Hero() {
         viewport={{ once: true }}
       >
         <Counter end={6} label="Projects Completed" />
-        <Counter end={2} label="Internships" />
+        <Counter end={3} label="Internships" />
       </motion.div>
 
       {/* Intro Text */}
@@ -137,8 +137,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          I craft AI-powered tools and dynamic web apps using the MERN stack. Recently worked on a Resume Analyzer (Gemini API), Digital Wallet System, and Bus Reservation App. Experienced with real-world projects through internships at EY GDS and Shell.
-        </motion.p>
+Building AI-powered apps with MERN and Spring Boot. Currently developing TerraSpotter and previously created a Resume Analyzer, Digital Wallet, and Bus Reservation App. Gained industry experience through internships at EY GDS, Shell, and Microsoft AI Azure.        </motion.p>
 
         <motion.div
           className="flex flex-wrap justify-center lg:justify-start gap-4"
@@ -150,7 +149,7 @@ export default function Hero() {
             Hire Me
           </a>
           <a
-  href="https://drive.google.com/uc?export=download&id=1TIT9utK1s_5B7MMIiiOGtjXWGckt6syP"
+  href="https://drive.google.com/file/d/1MR-XPyGbrCiUW9xAlQMQIxXEQqxigTC9/view?usp=sharing"
   download
   className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition cursor-pointer"
 >

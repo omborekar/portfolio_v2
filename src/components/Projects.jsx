@@ -3,6 +3,14 @@ import { FaGithub } from 'react-icons/fa';
 
 const projects = [
   {
+  title: 'TerraSpotter: Mapping the Right Place to Plant',
+  description:
+    'Spring Boot and React-based environmental platform for crowdsourcing optimal planting locations with geotagged photos, tree capacity estimation, and AI-powered plant suggestions. Designed as a final-year project with robust backend architecture and SQL integration.',
+  tags: ['Spring Boot', 'React.js', 'SQL Server', 'MySQL', 'API'],
+  github: 'https://github.com/omborekar/TerraSpotter-Mapping-the-Right-Place-to-Plant.git',
+}
+,
+  {
     title: 'Digital Payment Wallet System',
     description:
       'A secure MERN stack web app for wallet creation, fund transfers, and transaction history. Includes JWT auth, MongoDB storage, and real-time UI built with React.',
@@ -23,6 +31,7 @@ const projects = [
     tags: ['AI', 'Gemini API', 'Python', 'HTML'],
     github: 'https://github.com/omborekar/AI_Resume_Analyzer_and_suggestion_using_gemini_API.git',
   },
+
   {
     title: 'FoodieHub - Restaurant Ordering System',
     description:

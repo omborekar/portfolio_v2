@@ -8,7 +8,7 @@ const items = [
     color: "from-blue-500 to-cyan-500",
     content: (
       <>
-        <p><strong>BE (2022–2026):</strong> Sinhgad Academy of Engineering, Pune – CGPA: 7.78</p>
+        <p><strong>BE (2022–2026):</strong> Sinhgad Academy of Engineering, Pune – CGPA: 7.86</p>
         <p><strong>12th (2022):</strong> Nutan Jr. College, Malkapur – 88.33%</p>
         <p><strong>10th (2020):</strong> Nutan Vidyalaya, Malkapur – 96.60%</p>
       </>
