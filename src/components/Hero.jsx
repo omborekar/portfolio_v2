@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
-import profileTall from '../assets/tall-profile.jpg';
+import Profile from '../assets/Profile.jpg';
 
 function useTypewriter(words, speed = 60, pause = 2000) {
   const [displayed, setDisplayed] = useState('');
@@ -201,7 +201,7 @@ export default function Hero() {
             style={{ width: '100%', aspectRatio: '376 / 477', borderRadius: '24px' }}
           >
             <img
-              src={profileTall}
+              src={Profile}
               alt="Om Borekar"
               className="w-full h-full object-cover object-top"
             />
