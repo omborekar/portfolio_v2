@@ -1,32 +1,39 @@
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { FaLinkedin, FaGithub, FaEnvelope, FaPhone } from 'react-icons/fa';
+
+const contactInfo = [
+  { icon: <FaEnvelope />, label: 'Email', value: 'om.borekar.sae.comp@gmail.com', href: 'mailto:om.borekar.sae.comp@gmail.com' },
+  { icon: <FaPhone />, label: 'Phone', value: '+91-8767292374', href: 'tel:+918767292374' },
+  { icon: <FaLinkedin />, label: 'LinkedIn', value: 'linkedin.com/in/omborekar04', href: 'https://linkedin.com/in/omborekar04' },
+  { icon: <FaGithub />, label: 'GitHub', value: 'github.com/omborekar', href: 'https://github.com/omborekar' },
+];
 
 export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-
-    fetch("https://formspree.io/f/manjarew", {
-      method: "POST",
+    fetch('https://formspree.io/f/manjarew', {
+      method: 'POST',
       body: new FormData(form),
-      headers: {
-        Accept: "application/json",
-      },
+      headers: { Accept: 'application/json' },
     })
       .then((res) => {
-        if (res.ok) {
-          toast.success("Message sent!");
-          form.reset();
-        } else {
-          toast.error("Failed to send. Try again.");
-        }
+        if (res.ok) { toast.success('Message sent successfully!'); form.reset(); }
+        else toast.error('Failed to send. Please try again.');
       })
-      .catch(() => toast.error("Network error. Try again later."));
+      .catch(() => toast.error('Network error. Please try again later.'));
   };
 
   return (
-    <section id="contact" className="bg-[#1e1e2e] text-white py-28 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="contact" className="relative bg-[#080c14] text-white py-28 px-6 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(#7c3aed 1px, transparent 1px), linear-gradient(90deg, #7c3aed 1px, transparent 1px)', backgroundSize: '60px 60px' }}
+      />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-purple-700 rounded-full blur-[120px] opacity-10 pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-20"
           initial={{ opacity: 0, y: -30 }}
@@ -34,64 +41,61 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-xs uppercase tracking-widest text-purple-400 bg-purple-900/20 inline-block px-5 py-2 rounded-full mb-4">
-            Get In Touch
-          </h2>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white">
-            Contact Me
-          </h1>
-          <p className="mt-4 max-w-xl mx-auto text-gray-400 text-base">
-            I’m open to opportunities, collaborations, or just a friendly chat.
+          <span className="text-xs uppercase tracking-[0.25em] text-purple-400 bg-purple-900/30 border border-purple-700/40 px-4 py-1.5 rounded-full">
+            Let's Connect
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-white mt-4">Get In Touch</h2>
+          <p className="mt-4 max-w-lg mx-auto text-gray-400 text-base">
+            Open to full-time roles, internships, freelance projects, or just a meaningful conversation about tech and ideas.
           </p>
         </motion.div>
 
         <motion.div
-          className="grid md:grid-cols-2 gap-10 bg-white/5 backdrop-blur-md border border-purple-700/30 rounded-3xl p-10 shadow-2xl"
+          className="grid md:grid-cols-2 gap-10 bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
           {/* Left Info */}
-          <div className="flex flex-col justify-center gap-6 text-gray-300 text-sm">
-            <p>Drop me a message or reach me through the details below:</p>
-            <div className="space-y-3">
-              <p>
-                <span className="font-semibold text-purple-400">Email:</span>{' '}
-                <a href="mailto:om.borekar.sae.comp@gmail.com" className="hover:underline">
-                  om.borekar.sae.comp@gmail.com
-                </a>
+          <div className="flex flex-col justify-center gap-7">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-2">Let's work together</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Whether you're looking to hire, collaborate on a project, or just want to discuss an interesting problem — I'd love to hear from you.
               </p>
-              <p>
-                <span className="font-semibold text-purple-400">Phone:</span>{' '}
-                <a href="tel:+918767292374" className="hover:underline">
-                  +91-8767292374
-                </a>
-              </p>
-              <p>
-                <span className="font-semibold text-purple-400">LinkedIn:</span>{' '}
+            </div>
+            <div className="space-y-4">
+              {contactInfo.map(({ icon, label, value, href }) => (
                 <a
-                  href="https://linkedin.com/in/omborekar04"
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  className="flex items-center gap-4 group"
                 >
-                  @omborekar04
+                  <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-purple-900/40 border border-purple-700/40 text-purple-400 group-hover:bg-purple-700 group-hover:text-white transition-all duration-300 flex-shrink-0">
+                    {icon}
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 font-medium uppercase tracking-widest">{label}</p>
+                    <p className="text-sm text-gray-200 group-hover:text-purple-300 transition-colors">{value}</p>
+                  </div>
                 </a>
-              </p>
+              ))}
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <FloatingInput name="name" label="Your Name" type="text" />
             <FloatingInput name="email" label="Your Email" type="email" />
             <FloatingTextArea name="message" label="Your Message" />
             <button
               type="submit"
-              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white text-lg font-semibold rounded-full transition-all duration-300 shadow-md cursor-pointer"
+              className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-base font-bold rounded-full transition-all duration-300 shadow-lg shadow-purple-900/40 hover:scale-[1.02] cursor-pointer"
             >
-              Send Message
+              Send Message →
             </button>
           </form>
         </motion.div>
@@ -100,7 +104,6 @@ export default function Contact() {
   );
 }
 
-// 🟪 FloatingInput component
 function FloatingInput({ name, label, type }) {
   return (
     <div className="relative">
@@ -108,17 +111,16 @@ function FloatingInput({ name, label, type }) {
         type={type}
         name={name}
         required
-        placeholder={label}
-        className="peer w-full px-4 pt-6 pb-2 bg-transparent border-b border-gray-500 text-white placeholder-transparent focus:outline-none focus:border-purple-500"
+        placeholder=" "
+        className="peer w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 focus:border-purple-500 rounded-xl text-white placeholder-transparent focus:outline-none transition-colors"
       />
-      <label className="absolute left-4 top-1 text-sm text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-sm peer-focus:text-purple-400">
+      <label className="absolute left-4 top-1 text-xs text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs peer-focus:text-purple-400 pointer-events-none">
         {label}
       </label>
     </div>
   );
 }
 
-// 🟪 FloatingTextArea component
 function FloatingTextArea({ name, label }) {
   return (
     <div className="relative">
@@ -126,10 +128,10 @@ function FloatingTextArea({ name, label }) {
         name={name}
         rows="4"
         required
-        placeholder={label}
-        className="peer w-full px-4 pt-6 pb-2 bg-transparent border-b border-gray-500 text-white placeholder-transparent focus:outline-none focus:border-purple-500 resize-none"
+        placeholder=" "
+        className="peer w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 focus:border-purple-500 rounded-xl text-white placeholder-transparent focus:outline-none resize-none transition-colors"
       />
-      <label className="absolute left-4 top-1 text-sm text-gray-400 transition-all peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-sm peer-focus:text-purple-400">
+      <label className="absolute left-4 top-1 text-xs text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-focus:top-1 peer-focus:text-xs peer-focus:text-purple-400 pointer-events-none">
         {label}
       </label>
     </div>

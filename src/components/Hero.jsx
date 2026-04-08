@@ -2,27 +2,34 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 import profileTall from '../assets/tall-profile.jpg';
-import profileSquare from '../assets/profile.jpg';
 
-function useTypewriter(text, speed = 50, pause = 1500) {
+function useTypewriter(words, speed = 60, pause = 2000) {
   const [displayed, setDisplayed] = useState('');
-  const [index, setIndex] = useState(0);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    const current = words[wordIndex % words.length];
     let timeout;
-    if (index < text.length) {
+    if (!deleting && charIndex < current.length) {
       timeout = setTimeout(() => {
-        setDisplayed((prev) => prev + text.charAt(index));
-        setIndex(index + 1);
+        setDisplayed(current.slice(0, charIndex + 1));
+        setCharIndex(c => c + 1);
       }, speed);
-    } else {
+    } else if (!deleting && charIndex === current.length) {
+      timeout = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && charIndex > 0) {
       timeout = setTimeout(() => {
-        setDisplayed('');
-        setIndex(0);
-      }, pause);
+        setDisplayed(current.slice(0, charIndex - 1));
+        setCharIndex(c => c - 1);
+      }, speed / 2);
+    } else {
+      setDeleting(false);
+      setWordIndex(i => i + 1);
     }
     return () => clearTimeout(timeout);
-  }, [index, text, speed, pause]);
+  }, [charIndex, deleting, wordIndex, words, speed, pause]);
 
   return displayed;
 }
@@ -32,142 +39,195 @@ const Counter = ({ end, label }) => {
   useEffect(() => {
     let start = 0;
     const duration = 2000;
-    const increment = end / (duration / 10);
+    const increment = end / (duration / 16);
     const timer = setInterval(() => {
       start += increment;
-      if (start >= end) {
-        start = end;
-        clearInterval(timer);
-      }
+      if (start >= end) { start = end; clearInterval(timer); }
       setCount(Math.floor(start));
-    }, 10);
+    }, 16);
     return () => clearInterval(timer);
   }, [end]);
 
   return (
     <div className="text-center space-y-1">
-      <p className="text-5xl md:text-6xl font-extrabold text-purple-500">{count}+</p>
-      <p className="text-lg md:text-xl font-medium text-white">{label}</p>
+      <p className="text-4xl md:text-5xl font-extrabold text-[#a78bfa]">{count}+</p>
+      <p className="text-sm md:text-base font-medium text-gray-300 tracking-wide">{label}</p>
     </div>
   );
 };
 
+const socialLinks = [
+  { href: 'https://linkedin.com/in/omborekar04', icon: <FaLinkedin />, label: 'LinkedIn' },
+  { href: 'https://github.com/omborekar', icon: <FaGithub />, label: 'GitHub' },
+  { href: 'mailto:om.borekar.sae.comp@gmail.com', icon: <FaEnvelope />, label: 'Email' },
+];
+
 export default function Hero() {
-  const subtitle = useTypewriter("AI Enthusiast • Full Stack Developer • Open Source Learner", 50);
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const roles = useTypewriter(
+    ['Full Stack Developer', 'AI/ML Enthusiast', 'Open Source Builder', 'Cloud Practitioner'],
+    70
+  );
 
   return (
-    <section className="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-20 py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white gap-12 lg:gap-10">
-      
-      {/* Profile Image */}
-      <motion.div
-        className="order-1 lg:order-2 relative w-44 h-44 lg:w-64 lg:h-96"
-        initial={{ y: 0 }}
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="absolute inset-0 bg-purple-800 rounded-full lg:rounded-[48%/52%] opacity-30 blur-2xl z-0" />
-        <div className="relative w-full h-full overflow-hidden shadow-2xl rounded-full lg:rounded-[48%/52%] z-10 bg-purple-700 p-1.5">
-          <img
-            src={isMobile ? profileSquare : profileTall}
-            alt="Om Borekar"
-            className="w-full h-full object-cover object-top rounded-full lg:rounded-[48%/52%]"
-          />
-        </div>
-      </motion.div>
-
-      {/* Counters */}
-      <motion.div
-        className="order-2 lg:order-3 w-full flex flex-row justify-center gap-12 lg:flex-col lg:w-1/4 lg:text-center lg:gap-10"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <Counter end={6} label="Projects Completed" />
-        <Counter end={3} label="Internships" />
-      </motion.div>
+    <section
+      id="profile"
+      className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 md:px-16 xl:px-28 py-24 bg-[#080c14] text-white gap-12 lg:gap-16 overflow-hidden"
+    >
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(#7c3aed 1px, transparent 1px), linear-gradient(90deg, #7c3aed 1px, transparent 1px)', backgroundSize: '60px 60px' }}
+      />
+      {/* Glow blobs */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-purple-700 rounded-full blur-[120px] opacity-20 pointer-events-none" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-indigo-700 rounded-full blur-[140px] opacity-15 pointer-events-none" />
 
       {/* Intro Text */}
       <motion.div
-        className="order-3 lg:order-1 w-full lg:w-1/2 text-center lg:text-left space-y-6"
+        className="order-2 lg:order-1 w-full lg:w-1/2 text-center lg:text-left space-y-6 relative z-10"
         initial={{ opacity: 0, x: -60 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        <motion.p
-          className="text-sm uppercase text-purple-400 tracking-widest"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <motion.span
+          className="inline-block text-xs uppercase tracking-[0.25em] text-purple-400 bg-purple-900/30 border border-purple-700/40 px-4 py-1.5 rounded-full"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          Hello Welcome
-        </motion.p>
+          Available for Opportunities
+        </motion.span>
+
         <motion.h1
-          className="text-4xl md:text-5xl font-bold leading-tight"
-          initial={{ opacity: 0, y: 40 }}
+          className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight"
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          I&apos;m <span className="text-purple-500">Om Borekar</span><br />
-          Final Year Computer Engineering Student
+          Hi, I'm{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
+            Om Borekar
+          </span>
         </motion.h1>
 
-        <motion.h2
-          className="text-lg text-purple-400 font-semibold tracking-wide min-h-[1.5rem]"
+        <motion.div
+          className="flex items-center justify-center lg:justify-start gap-2 text-lg sm:text-xl font-semibold text-purple-300 min-h-[2rem]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          {subtitle}
-        </motion.h2>
+          <span>{roles}</span>
+          <span className="w-[2px] h-6 bg-purple-400 animate-pulse" />
+        </motion.div>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed"
+          className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-xl mx-auto lg:mx-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-Building AI-powered apps with MERN and Spring Boot. Currently developing TerraSpotter and previously created a Resume Analyzer, Digital Wallet, and Bus Reservation App. Gained industry experience through internships at EY GDS, Shell, and Microsoft AI Azure.        </motion.p>
+          Final-year Computer Engineering student at Sinhgad Academy of Engineering, Pune.
+          I architect and ship production-ready full-stack applications — from AI-powered platforms using
+          MERN & Spring Boot to cloud-deployed ML pipelines on Azure. Backed by internship experience at{' '}
+          <span className="text-purple-300 font-medium">Microsoft AI Azure</span>,{' '}
+          <span className="text-purple-300 font-medium">EY GDS</span>, and{' '}
+          <span className="text-purple-300 font-medium">Shell</span>.
+        </motion.p>
 
         <motion.div
-          className="flex flex-wrap justify-center lg:justify-start gap-4"
+          className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <a href="#contact" className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition cursor-pointer">
+          <a
+            href="#contact"
+            className="px-7 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold rounded-full transition-all duration-300 shadow-lg shadow-purple-900/40 hover:scale-105"
+          >
             Hire Me
           </a>
           <a
-  href="https://drive.google.com/file/d/1MR-XPyGbrCiUW9xAlQMQIxXEQqxigTC9/view?usp=sharing"
-  download
-  className="px-6 py-3 border border-purple-600 text-purple-400 hover:bg-purple-800 rounded-md transition cursor-pointer"
->
-  Download CV
-</a>
-
+            href="https://drive.google.com/file/d/1MR-XPyGbrCiUW9xAlQMQIxXEQqxigTC9/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-7 py-3 border border-purple-500/60 text-purple-300 hover:bg-purple-800/40 hover:border-purple-400 font-semibold rounded-full transition-all duration-300 hover:scale-105"
+          >
+            Download CV
+          </a>
         </motion.div>
 
         <motion.div
-          className="flex justify-center lg:justify-start gap-5 pt-4 text-2xl text-purple-400"
+          className="flex justify-center lg:justify-start gap-4 pt-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
         >
-          <a href="https://linkedin.com/in/omborekar04" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-          <a href="https://github.com/omborekar" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-          <a href="mailto:om.borekar.sae.comp@gmail.com"><FaEnvelope /></a>
+          {socialLinks.map(({ href, icon, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-purple-700/50 text-purple-400 hover:text-white hover:bg-purple-700 hover:border-purple-600 transition-all duration-300 text-lg"
+            >
+              {icon}
+            </a>
+          ))}
         </motion.div>
+      </motion.div>
+
+      {/* Profile Image */}
+      <motion.div
+        className="order-1 lg:order-2 relative flex-shrink-0 z-10"
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+      >
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          className="relative"
+          style={{ width: '376px', maxWidth: '90vw' }}
+        >
+          {/* Decorative ring */}
+          <div
+            className="absolute -inset-3 rounded-[32px] border-2 border-purple-600/30"
+            style={{ borderRadius: '32px' }}
+          />
+          <div className="absolute -inset-1 bg-gradient-to-tr from-purple-700 to-indigo-600 rounded-[28px] opacity-60 blur-sm" />
+          <div
+            className="relative overflow-hidden bg-gradient-to-br from-purple-900 to-indigo-900"
+            style={{ width: '100%', aspectRatio: '376 / 477', borderRadius: '24px' }}
+          >
+            <img
+              src={profileTall}
+              alt="Om Borekar"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
+          {/* Badge */}
+          <motion.div
+            className="absolute -bottom-4 -right-4 bg-[#1a1f35] border border-purple-700/50 rounded-2xl px-4 py-2 shadow-xl"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <p className="text-xs text-gray-400">CGPA</p>
+            <p className="text-xl font-extrabold text-purple-400">7.95</p>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Counters */}
+      <motion.div
+        className="order-3 w-full flex flex-row justify-center gap-12 lg:flex-col lg:w-auto lg:gap-10 relative z-10"
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <Counter end={6} label="Projects Shipped" />
+        <Counter end={3} label="Internships" />
       </motion.div>
     </section>
   );
