@@ -34,7 +34,7 @@ const internships = [
     org: 'via Edunet Foundation',
     duration: 'Nov 2024 – Dec 2024',
     description:
-      'Developed a clinical diabetes prediction model using Python and Scikit-learn, applying the full ML workflow: exploratory data analysis, missing value imputation, feature engineering, model selection, and hyperparameter tuning. Achieved strong classification accuracy on a real medical dataset. Built interactive data visualizations to communicate model performance and feature importance to non-technical stakeholders, demonstrating AI's practical role in predictive healthcare.',
+      'Developed a clinical diabetes prediction model using Python and Scikit-learn, applying the full ML workflow: exploratory data analysis, missing value imputation, feature engineering, model selection, and hyperparameter tuning. Achieved strong classification accuracy on a real medical dataset. Built interactive data visualizations to communicate model performance and feature importance to non-technical stakeholders, demonstrating AI\'s practical role in predictive healthcare.',
     impact: 'Built predictive model with 80%+ accuracy',
     tags: ['Python', 'Scikit-learn', 'Pandas', 'Data Visualization', 'Feature Engineering'],
     certificate: 'https://drive.google.com/file/d/1eVV-AX0bN74X2wLWEbJSaOjjhKlslyi4/view?usp=sharing',

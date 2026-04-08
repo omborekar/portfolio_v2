@@ -28,7 +28,7 @@ const projects = [
   {
     title: 'AI Resume Analyzer – Gemini API-Powered Career Tool',
     description:
-      'An intelligent resume analysis tool leveraging Google's Gemini API to parse candidate resumes and job descriptions, delivering actionable, context-aware improvement suggestions. Built with Python and a lightweight HTML/JS frontend, it compares skill alignment, identifies gaps, and generates tailored recommendations — reducing manual HR review effort while improving candidate-role fit.',
+      'An intelligent resume analysis tool leveraging Google\'s Gemini API to parse candidate resumes and job descriptions, delivering actionable, context-aware improvement suggestions. Built with Python and a lightweight HTML/JS frontend, it compares skill alignment, identifies gaps, and generates tailored recommendations — reducing manual HR review effort while improving candidate-role fit.',
     tags: ['Python', 'Gemini API', 'NLP', 'HTML', 'AI/ML'],
     github: 'https://github.com/omborekar/AI_Resume_Analyzer_and_suggestion_using_gemini_API.git',
   },
